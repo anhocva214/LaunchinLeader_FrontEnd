@@ -318,8 +318,6 @@ router.post('/remove', async (req, res) => {
     else{
         res.send({ error: true, msg: 'Mời bạn đăng nhập lại' });
     }
-
-
 })
 
 module.exports = router;
