@@ -140,7 +140,7 @@ router.post('/email_verification', (req, res) => {
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
                     console.log(error);
-                    res.status(500).send({ error: true, msg: "Lỗi đăng ký" });
+                    res.status(500).send({ error: true, msg: error });
                 } else {
                     console.log("Email sent: " + info.response);
                     res.send({ error: false, msg: "Mã xác nhận đã gửi đến email của bạn" });

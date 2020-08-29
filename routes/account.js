@@ -289,6 +289,37 @@ router.post('/update_info', async (req, res) => {
 
 })
 
+router.post('/remove', async (req, res) => {
+    const access_token = req.body.access_token;;
+    console.log(access_token);
+    const data_token = await query_token_admin(access_token);
+    if (data_token != undefined) {
+        const check = expried.handle_expried(data_token.time, data_token.expried);
+        if (check == true) {
+            MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("ll_db");
+                var myquery = { id: req.body.id };
+                dbo.collection("account_member").deleteOne(myquery, function(err, obj) {
+                  if (err) {
+                      console.log(err);
+                      res.send({ error: true, msg: 'Xóa tài khoản thất bại'});
+                  }
+                  res.send({error: false, msg: "Xóa tài khoản thành công"})
+                  console.log("1 document deleted");
+                  db.close();
+                });
+              });
+        }
+        else {
+            res.send({ error: true, msg: 'Mời bạn đăng nhập lại' });
+        }
+    }
+    else{
+        res.send({ error: true, msg: 'Mời bạn đăng nhập lại' });
+    }
 
+
+})
 
 module.exports = router;
